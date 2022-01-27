@@ -6,7 +6,8 @@ import { MdPeople, MdOutlineExitToApp } from "react-icons/md";
 import { VscTriangleDown } from "react-icons/vsc";
 import { useHistory } from "react-router";
 import { LOGOUT_MUT } from "../graphql/mutations/logout";
-import { ME_QUERY } from "../graphql/queries/user";
+import { ME_QUERY } from "../graphql/queries/me";
+import { Link } from "react-router-dom";
 
 const Dropdown = ({ name }) => {
   const history = useHistory();
@@ -54,28 +55,28 @@ const Dropdown = ({ name }) => {
           <div className="px-2 py-2">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <Link
+                  to="/profile"
                   className={`${
                     active && "bg-gray-200"
                   } group flex rounded-md items-center w-full py-3 text-sm`}
                 >
                   <IoPersonCircleSharp className="mx-3" size={24} />
                   My Profile
-                </a>
+                </Link>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <Link
+                  to="/home"
                   className={`${
                     active && "bg-gray-200"
                   } group flex rounded-md items-center w-full py-3 text-sm`}
                 >
                   <MdPeople className="mx-3" size={24} />
                   Group Chat
-                </a>
+                </Link>
               )}
             </Menu.Item>
           </div>

@@ -1,22 +1,19 @@
-import React from "react";
-import { Redirect, Route } from "react-router";
-import NavBar from "./NavBar";
-import EditProfile from "../pages/EditProfile";
-import Profile from "../pages/Profile";
+import React, { useContext } from "react";
+import { Redirect } from "react-router";
+import NavBar from "../components/NavBar";
 
-const PrivateWrapper = ({ profile }) => {
-  const isAuthenticated = profile && profile.me !== null ? true : false;
+import UserContext from "../utils/UserContext";
+
+const PrivateWrapper = (props) => {
+  const user = useContext(UserContext);
+  const isAuthenticated = user !== null ? true : false;
+
   return (
     <div>
       {isAuthenticated ? (
-        <div>
-          <NavBar profile={profile.me} />
-          <Route exact path="/editprofile">
-            <EditProfile />
-          </Route>
-          <Route exact path="/profile">
-            <Profile profile={profile.me} />
-          </Route>
+        <div className="flex flex-col h-screen">
+          <NavBar profile={user} />
+          {props.children}
         </div>
       ) : (
         <Redirect to="/" />

@@ -2,9 +2,13 @@ import React from "react";
 import Login from "./pages/Login";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Register from "./pages/Register";
-import HomeWrapper from "./components/HomeWrapper";
 import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
+import { UserProvider } from "./utils/UserContext";
+import PrivateWrapper from "./components/PrivateWrapper";
+import EditProfile from "./pages/EditProfile";
+import Profile from "./pages/Profile";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
@@ -30,7 +34,17 @@ const App = () => {
             <Register />
           </div>
         </Route>
-        <HomeWrapper />
+        <UserProvider>
+          <PrivateWrapper>
+            <Route exact path="/editprofile">
+              <EditProfile />
+            </Route>
+            <Route exact path="/profile">
+              <Profile />
+            </Route>
+            <Home />
+          </PrivateWrapper>
+        </UserProvider>
       </Switch>
     </Router>
   );

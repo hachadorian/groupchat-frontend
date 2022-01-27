@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "../graphql/mutations/login";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { ME_QUERY } from "../graphql/queries/user";
+import { ME_QUERY } from "../graphql/queries/me";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +41,7 @@ const Login = () => {
     setEmail("");
     setPassword("");
     setError("");
-    history.push("/profile");
+    history.push("/home");
   };
 
   return (

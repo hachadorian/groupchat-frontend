@@ -4,13 +4,7 @@ import Dropdown from "./Dropdown";
 const NavBar = ({ profile }) => {
   return (
     <div className="w-full grid grid-cols-2">
-      <div className="flex justify-start m-2 pl-10 md:pl-20 pt-10 md:pt-6">
-        <img
-          src={require("../assets/devchallenges.svg").default}
-          alt="logo"
-          className="justify-start h-1/2"
-        />
-      </div>
+      <div className="flex justify-start m-2 pl-10 md:pl-20 pt-10 md:pt-6"></div>
       <div className="flex justify-end m-2 md:pr-20 pt-6 items-center">
         <img
           src={profile.image}

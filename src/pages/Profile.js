@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import ProfileField from "../components/ProfileField";
+import UserContext from "../utils/UserContext";
 
-const Profile = ({ profile }) => {
+const Profile = () => {
+  const user = useContext(UserContext);
   const history = useHistory();
   return (
     <div>
@@ -31,8 +33,8 @@ const Profile = ({ profile }) => {
                 </button>
               </div>
             </div>
-            {Object.keys(profile).map((key) => (
-              <ProfileField key={key} label={key} value={profile[key]} />
+            {Object.keys(user).map((key) => (
+              <ProfileField key={key} label={key} value={user[key]} />
             ))}
           </div>
         </div>

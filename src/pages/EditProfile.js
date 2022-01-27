@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { useMutation } from "@apollo/client";
-import { ME_QUERY } from "../graphql/queries/user";
+import { ME_QUERY } from "../graphql/queries/me";
 import { UPDATE_MUT } from "../graphql/mutations/update";
 import { IoIosArrowBack } from "react-icons/io";
 import InputField from "../components/InputField";
