@@ -2,9 +2,11 @@ import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { GETALLCHANNELS_QUERY } from "../graphql/queries/getAllChannels";
 import { Link } from "react-router-dom";
+import Modal from "./Modal";
 
 const SideBar = ({ setChannel }) => {
   const [search, setSearch] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const result = useQuery(GETALLCHANNELS_QUERY);
 
   if (result.loading) return <div>loading...</div>;
@@ -18,12 +20,17 @@ const SideBar = ({ setChannel }) => {
 
   return (
     <div className="flex flex-col">
-      <input
-        className="w-4/5 p-2 rounded-md"
-        placeholder="Search"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <div>
+        <input
+          className="w-4/5 p-2 rounded-md"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button className="p-4 bg-green-500" onClick={(e) => setIsOpen(true)}>
+          +
+        </button>
+      </div>
       {filteredChannels.map((channel) => {
         return (
           <Link
@@ -39,6 +46,7 @@ const SideBar = ({ setChannel }) => {
           </Link>
         );
       })}
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };
