@@ -6,7 +6,7 @@ const ProfileField = ({ label, value }) => {
   } else if (label === "image") {
     return (
       <div className="grid grid-cols-3 py-2 px-12">
-        <div className="text-gray-500 pt-8">{label}</div>
+        <div className="text-white pt-8">{label}</div>
         <div className="md:col-span-2">
           <img
             src={value}
@@ -19,8 +19,8 @@ const ProfileField = ({ label, value }) => {
   } else {
     return (
       <div className="grid grid-cols-3 py-12 px-12">
-        <div className="text-gray-500">{label}</div>
-        <div className="col-span-2">
+        <div className="text-white">{label}</div>
+        <div className="col-span-2 secondary-font">
           <span>{label === "password" ? "*******" : value}</span>
         </div>
       </div>

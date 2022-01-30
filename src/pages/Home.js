@@ -2,22 +2,39 @@ import React, { useState } from "react";
 import SideBar from "../components/SideBar";
 import { Route } from "react-router-dom";
 import Channel from "./Channel";
+import Search from "./Search";
+import EditProfile from "./EditProfile";
+import Profile from "./Profile";
+import { UserProvider } from "../utils/UserContext";
 
 const Home = () => {
   const [channel, setChannel] = useState(null);
 
   return (
-    <div className="h-full grid grid-cols-5">
-      <div className="col-span-1 bg-red-400">
-        <SideBar setChannel={setChannel} />
+    <UserProvider>
+      <div className="h-screen grid grid-cols-5 rubik">
+        <div className="col-span-1 darker">
+          <SideBar setChannel={setChannel} />
+        </div>
+        <div className="col-span-4 overflow-auto">
+          <Route exact path="/editprofile">
+            <EditProfile />
+          </Route>
+          <Route exact path="/profile">
+            <Profile />
+          </Route>
+          <Route exact path="/home">
+            home
+          </Route>
+          <Route exact path="/channel/:id">
+            <Channel channel={channel} />
+          </Route>
+          <Route exact path="/search">
+            <Search />
+          </Route>
+        </div>
       </div>
-      <div className="col-span-4">
-        <Route path="/home">home</Route>
-        <Route exact path="/channel/:id">
-          <Channel channel={channel} />
-        </Route>
-      </div>
-    </div>
+    </UserProvider>
   );
 };
 

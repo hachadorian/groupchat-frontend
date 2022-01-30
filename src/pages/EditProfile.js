@@ -56,7 +56,7 @@ const EditProfile = () => {
     history.push("/profile");
   };
   return (
-    <div className="flex justify-center pt-12 pb-24">
+    <div className="flex justify-center pt-12 pb-24 dark text-white">
       <div className="flex justify-center flex-col md:w-1/2">
         <button
           className="flex justify-start text-blue-500 md:ml-0 ml-10"
@@ -65,14 +65,14 @@ const EditProfile = () => {
           <IoIosArrowBack size={18} className="mt-1" />
           Back
         </button>
-        <div className="md:border rounded-xl md:mt-5">
-          <div className="md:grid grid-cols-2 py-12 px-12">
+        <div className="md:mt-5">
+          <div className="py-12 px-12">
             <form
               className="flex justify-start flex-col"
               onSubmit={handleSubmit}
             >
               <div className="text-2xl">Change Info</div>
-              <div className="text-gray-500">
+              <div className="secondary-font">
                 Changes will be reflected to every services
               </div>
               <div className="py-2">
@@ -80,7 +80,7 @@ const EditProfile = () => {
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
                     <svg
-                      className="mx-auto h-12 w-12 text-gray-400"
+                      className="mx-auto h-12 w-12 secondary-font"
                       stroke="currentColor"
                       fill="none"
                       viewBox="0 0 48 48"
@@ -96,7 +96,7 @@ const EditProfile = () => {
                     <div className="flex text-sm text-gray-600">
                       <label
                         htmlFor="file-upload"
-                        className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                        className="relative cursor-pointer bg-blue-500 rounded-md font-medium text-white hover:bg-blue-600 p-1"
                       >
                         <span>Upload a file</span>
                         <input

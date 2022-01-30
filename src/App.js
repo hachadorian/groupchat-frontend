@@ -4,10 +4,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
-import { UserProvider } from "./utils/UserContext";
-import PrivateWrapper from "./components/PrivateWrapper";
-import EditProfile from "./pages/EditProfile";
-import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 
 const App = () => {
@@ -34,17 +30,7 @@ const App = () => {
             <Register />
           </div>
         </Route>
-        <UserProvider>
-          <PrivateWrapper>
-            <Route exact path="/editprofile">
-              <EditProfile />
-            </Route>
-            <Route exact path="/profile">
-              <Profile />
-            </Route>
-            <Home />
-          </PrivateWrapper>
-        </UserProvider>
+        <Home />
       </Switch>
     </Router>
   );

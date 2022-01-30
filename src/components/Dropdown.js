@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { MdPeople, MdOutlineExitToApp } from "react-icons/md";
-import { VscTriangleDown } from "react-icons/vsc";
+import { IoIosArrowDown } from "react-icons/io";
 import { useHistory } from "react-router";
 import { LOGOUT_MUT } from "../graphql/mutations/logout";
 import { ME_QUERY } from "../graphql/queries/me";
@@ -38,7 +38,7 @@ const Dropdown = ({ name }) => {
         <span className="font-bold mr-2">{name}</span>
         <Menu.Button className="px-4 py-2 text-sm">
           {({ open }) => (
-            <VscTriangleDown className={`transform ${open && " rotate-180"}`} />
+            <IoIosArrowDown className={`transform ${open && " rotate-180"}`} />
           )}
         </Menu.Button>
       </div>
@@ -51,14 +51,14 @@ const Dropdown = ({ name }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 w-56 m-2 mt-8 mr-5 md:mr-24 origin-top-right rounded-lg ring-1 ring-black ring-opacity-5 p-2 focus:outline-none divide-y bg-white">
-          <div className="px-2 py-2">
+        <Menu.Items className="absolute left-6 w-56 m-2 -mt-64 origin-top-right rounded-lg ring-1 ring-black ring-opacity-5 p-2 focus:outline-none dark">
+          <div className="px-2 py-2  border-b-2 border-gray-600">
             <Menu.Item>
               {({ active }) => (
                 <Link
                   to="/profile"
                   className={`${
-                    active && "bg-gray-200"
+                    active && "secondary"
                   } group flex rounded-md items-center w-full py-3 text-sm`}
                 >
                   <IoPersonCircleSharp className="mx-3" size={24} />
@@ -71,7 +71,7 @@ const Dropdown = ({ name }) => {
                 <Link
                   to="/home"
                   className={`${
-                    active && "bg-gray-200"
+                    active && "secondary"
                   } group flex rounded-md items-center w-full py-3 text-sm`}
                 >
                   <MdPeople className="mx-3" size={24} />
@@ -85,7 +85,7 @@ const Dropdown = ({ name }) => {
               {({ active }) => (
                 <button
                   className={`${
-                    active && "bg-gray-200"
+                    active && "secondary"
                   } group flex rounded-md items-center w-full py-3 text-sm text-red-500`}
                   onClick={handleLogout}
                 >

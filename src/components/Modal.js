@@ -46,7 +46,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
+          className="fixed inset-0 z-10 overflow-y-auto rubik"
           onClose={(e) => setIsOpen(false)}
         >
           <div className="min-h-screen px-4 text-center">
@@ -77,17 +77,18 @@ const Modal = ({ isOpen, setIsOpen }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-full max-w-md p-8 my-8 overflow-hidden text-left align-middle transition-all transform darker shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg font-medium leading-6 text-white"
                 >
-                  New Channel
+                  NEW CHANNEL
                 </Dialog.Title>
-                <div className="mt-2">
+
+                <div className="mt-2 modal-font">
                   <div className="py-2">
                     <input
-                      className="bg-gray-200"
+                      className="w-full p-2 rounded input-bg"
                       placeholder="Channel name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -95,7 +96,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
                   </div>
                   <div className="py-2">
                     <textarea
-                      className="bg-gray-200"
+                      className="p-2 input-bg w-full rounded"
                       placeholder="Channel Description"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
@@ -106,7 +107,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
                 <div className="mt-4 flex justify-end">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 border border-transparent rounded-md"
                     onClick={handleSubmit}
                   >
                     Save
