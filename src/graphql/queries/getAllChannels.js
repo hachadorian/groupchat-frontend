@@ -6,6 +6,8 @@ export const GETALLCHANNELS_QUERY = gql`
       id
       name
       description
+      member_count
+      is_member
     }
   }
 `;

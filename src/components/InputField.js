@@ -9,7 +9,7 @@ const InputField = (props) => {
         type={props.type}
         value={props.value}
         onChange={props.onChange}
-        className="rounded py-2 px-3 text-gray-700 input-bg focus:outline-blue-500"
+        className="rounded py-2 px-3 text-white input-bg focus:outline-blue-500"
         placeholder={props.placeholder}
       />
     </div>

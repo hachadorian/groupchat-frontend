@@ -11,22 +11,22 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path="/">
-          <div className="h-screen flex justify-center items-center">
+          <div className="h-screen flex justify-center items-center dark text-white rubik">
             <Login />
           </div>
         </Route>
         <Route exact path="/change-password/:token">
-          <div className="h-screen flex justify-center items-center">
+          <div className="h-screen flex justify-center items-center dark text-white rubik">
             <ChangePassword />
           </div>
         </Route>
         <Route exact path="/forgot-password">
-          <div className="h-screen flex justify-center items-center">
+          <div className="h-screen flex justify-center items-center dark text-white rubik">
             <ForgotPassword />
           </div>
         </Route>
         <Route exact path="/register">
-          <div className="h-screen flex justify-center items-center">
+          <div className="h-screen flex justify-center items-center dark text-white rubik">
             <Register />
           </div>
         </Route>
