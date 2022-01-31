@@ -1,7 +1,19 @@
-import React from "react";
+import { useQuery } from "@apollo/client";
+import React, { useEffect } from "react";
 import { IoSend } from "react-icons/io5";
+import { GETCHANNEL_QUERY } from "../graphql/queries/getChannel";
 
-const Channel = ({ channel }) => {
+const Channel = ({ channel, setMembers }) => {
+  const result = useQuery(GETCHANNEL_QUERY, {
+    variables: { id: channel.id },
+  });
+
+  useEffect(() => {
+    if (result.data) {
+      setMembers(result.data.getChannel.members);
+    }
+  }, [result.data, setMembers]);
+
   return (
     <div className="dark h-full relative">
       <div className="absolute top-0 w-full text-white font-bold shadow-bottom">

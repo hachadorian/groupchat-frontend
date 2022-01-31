@@ -9,12 +9,17 @@ import { UserProvider } from "../utils/UserContext";
 
 const Home = () => {
   const [channel, setChannel] = useState(null);
+  const [members, setMembers] = useState(null);
 
   return (
     <UserProvider>
       <div className="h-screen grid grid-cols-5 rubik">
         <div className="col-span-1 darker">
-          <SideBar setChannel={setChannel} />
+          <SideBar
+            setChannel={setChannel}
+            members={members}
+            channel={channel}
+          />
         </div>
         <div className="col-span-4 overflow-auto">
           <Route exact path="/editprofile">
@@ -27,7 +32,7 @@ const Home = () => {
             home
           </Route>
           <Route exact path="/channel/:id">
-            <Channel channel={channel} />
+            <Channel channel={channel} setMembers={setMembers} />
           </Route>
           <Route exact path="/search">
             <Search />
