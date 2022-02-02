@@ -7,6 +7,7 @@ import UserContext from "../utils/UserContext";
 const Profile = () => {
   const user = useContext(UserContext);
   const history = useHistory();
+
   return (
     <div>
       <div className="flex justify-center pb-24 dark text-white">

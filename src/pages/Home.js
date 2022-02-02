@@ -28,9 +28,7 @@ const Home = () => {
           <Route exact path="/profile">
             <Profile />
           </Route>
-          <Route exact path="/home">
-            home
-          </Route>
+          <Route exact path="/home"></Route>
           <Route exact path="/channel/:id">
             <Channel channel={channel} setMembers={setMembers} />
           </Route>

@@ -13,8 +13,10 @@ export const GETCHANNEL_QUERY = gql`
         image
       }
       messages {
+        id
         user_id
         name
+        image
         message
         created_at
       }

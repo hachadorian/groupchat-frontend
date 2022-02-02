@@ -55,11 +55,12 @@ const EditProfile = () => {
     setError("");
     history.push("/profile");
   };
+
   return (
     <div className="flex justify-center pt-12 pb-24 dark text-white">
       <div className="flex justify-center flex-col md:w-1/2">
         <button
-          className="flex justify-start text-blue-500 md:ml-0 ml-10"
+          className="flex justify-start text-white md:ml-0 ml-10"
           onClick={() => history.goBack()}
         >
           <IoIosArrowBack size={18} className="mt-1" />

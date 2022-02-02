@@ -4,6 +4,7 @@ import { Fragment, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CREATECHANNEL_MUT } from "../graphql/mutations/createChannel";
 import { GETALLCHANNELS_QUERY } from "../graphql/queries/getAllChannels";
+import { GETALLJOINEDCHANNELS_QUERY } from "../graphql/queries/getAllJoinedChannels";
 
 const Modal = ({ isOpen, setIsOpen }) => {
   const [name, setName] = useState("");
@@ -12,15 +13,32 @@ const Modal = ({ isOpen, setIsOpen }) => {
 
   const [createChannel] = useMutation(CREATECHANNEL_MUT, {
     update: async (store, response) => {
-      const dataInStore = await store.readQuery({
+      const allChannels = await store.readQuery({
         query: GETALLCHANNELS_QUERY,
       });
+
+      if (allChannels) {
+        store.writeQuery({
+          query: GETALLCHANNELS_QUERY,
+          data: {
+            ...allChannels,
+            getAllChannels: [
+              ...allChannels.getAllChannels,
+              response.data.createChannel,
+            ],
+          },
+        });
+      }
+
+      const joinedChannels = await store.readQuery({
+        query: GETALLJOINEDCHANNELS_QUERY,
+      });
       store.writeQuery({
-        query: GETALLCHANNELS_QUERY,
+        query: GETALLJOINEDCHANNELS_QUERY,
         data: {
-          ...dataInStore,
-          getAllChannels: [
-            ...dataInStore.getAllChannels,
+          ...joinedChannels,
+          getAllJoinedChannels: [
+            ...joinedChannels.getAllJoinedChannels,
             response.data.createChannel,
           ],
         },
@@ -41,6 +59,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
     setIsOpen(false);
     history.push("/home");
   };
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -86,7 +105,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
                 </Dialog.Title>
 
                 <div className="mt-2 modal-font">
-                  <div className="py-2">
+                  <div className="py-2 text-white">
                     <input
                       className="w-full p-2 rounded input-bg"
                       placeholder="Channel name"
@@ -94,7 +113,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
-                  <div className="py-2">
+                  <div className="py-2 text-white">
                     <textarea
                       className="p-2 input-bg w-full rounded"
                       placeholder="Channel Description"

@@ -2,12 +2,13 @@ import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import ChannelCard from "../components/ChannelCard";
 import { GETALLCHANNELS_QUERY } from "../graphql/queries/getAllChannels";
+import Loader from "../components/Loader";
 
 const Search = () => {
   const [search, setSearch] = useState("");
   const result = useQuery(GETALLCHANNELS_QUERY);
 
-  if (result.loading) return <div>loading...</div>;
+  if (result.loading) return <Loader />;
 
   const channels =
     search === ""

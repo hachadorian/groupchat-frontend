@@ -8,6 +8,8 @@ import Dropdown from "./Dropdown";
 import { MdSearch } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaCrown } from "react-icons/fa";
+import { AiOutlineHome } from "react-icons/ai";
+import Loader from "./Loader";
 
 const SideBar = ({ setChannel, members, channel }) => {
   const user = useContext(UserContext);
@@ -15,14 +17,17 @@ const SideBar = ({ setChannel, members, channel }) => {
   const result = useQuery(GETALLJOINEDCHANNELS_QUERY);
   const [channelSideBar, setChannelSideBar] = useState(false);
 
-  if (result.loading) return <div>loading...</div>;
+  if (result.loading) return <Loader />;
 
   return (
     <div className="h-full w-full flex flex-col">
       <div className="flex flex-col text-white">
         {channelSideBar && members ? (
           <div className="px-4">
-            <button onClick={(e) => setChannelSideBar(false)} className="flex">
+            <button
+              onClick={(e) => setChannelSideBar(false)}
+              className="flex pt-4"
+            >
               <IoIosArrowBack className="mt-1" />
               Back
             </button>
@@ -84,6 +89,12 @@ const SideBar = ({ setChannel, members, channel }) => {
                 <MdSearch />
               </div>
               <div className="secondary-font">SEARCH</div>
+            </Link>
+            <Link className="flex items-center" to="/home">
+              <div className="flex items-center justify-center text-lg rounded-xl w-12 h-12 mx-4 my-2 bg-indigo-500">
+                <AiOutlineHome />
+              </div>
+              <div className="secondary-font">HOME</div>
             </Link>
           </div>
         )}
