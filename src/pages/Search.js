@@ -1,21 +1,24 @@
-import { useQuery } from "@apollo/client";
-import React, { useState } from "react";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
 import ChannelCard from "../components/ChannelCard";
-import { GETALLCHANNELS_QUERY } from "../graphql/queries/getAllChannels";
+import { GETCHANNELS_QUERY } from "../graphql/queries/getChannels";
 import Loader from "../components/Loader";
+import { GETTOPCHANNELS_QUERY } from "../graphql/queries/getTopChannels";
 
 const Search = () => {
   const [search, setSearch] = useState("");
-  const result = useQuery(GETALLCHANNELS_QUERY);
+  const [executeSearch, { called, loading, data }] =
+    useLazyQuery(GETCHANNELS_QUERY);
+  const getTopChannels = useQuery(GETTOPCHANNELS_QUERY);
 
-  if (result.loading) return <Loader />;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      executeSearch({ variables: { search: search } });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [search, executeSearch]);
 
-  const channels =
-    search === ""
-      ? result.data.getAllChannels
-      : result.data.getAllChannels.filter((channel) =>
-          channel.name.toLowerCase().includes(search)
-        );
+  if (getTopChannels.loading) return <Loader />;
 
   return (
     <div className="dark h-full overflow-auto">
@@ -44,12 +47,23 @@ const Search = () => {
           />
         </div>
         {search === "" && (
-          <div className="text-xl text-white mb-6">Top communities:</div>
+          <div>
+            <div className="text-xl text-white mb-6">Top communities:</div>
+            <div className="md:grid grid-cols-2 md:gap-12">
+              {getTopChannels.data.getTopChannels.map((channel) => {
+                return <ChannelCard channel={channel} />;
+              })}
+            </div>
+          </div>
         )}
-        <div className="grid grid-cols-3 gap-4">
-          {channels.slice(0, 6).map((channel) => {
-            return <ChannelCard channel={channel} key={channel.id} />;
-          })}
+        {called && loading && <Loader />}
+        <div className="md:grid grid-cols-2 md:gap-12">
+          {called &&
+            data &&
+            search !== "" &&
+            data.getChannels.map((channel) => {
+              return <ChannelCard channel={channel} />;
+            })}
         </div>
       </div>
     </div>

@@ -35,8 +35,8 @@ const Dropdown = ({ name }) => {
   return (
     <Menu as="div">
       <div>
-        <span className="font-bold mr-2">{name}</span>
-        <Menu.Button className="px-4 py-2 text-sm">
+        <span className="font-bold mr-2 text-sm md:text-base">{name}</span>
+        <Menu.Button className="text-sm">
           {({ open }) => (
             <IoIosArrowDown className={`transform ${open && " rotate-180"}`} />
           )}

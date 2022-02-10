@@ -12,14 +12,6 @@ export const GETCHANNEL_QUERY = gql`
         is_creator
         image
       }
-      messages {
-        id
-        user_id
-        name
-        image
-        message
-        created_at
-      }
     }
   }
 `;

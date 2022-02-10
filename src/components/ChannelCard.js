@@ -50,7 +50,7 @@ const ChannelCard = ({ channel }) => {
   };
 
   return (
-    <div className="darker text-white flex flex-col items-center rounded-lg p-12 text-center">
+    <div className="darker text-white flex flex-col items-center rounded-lg p-6 my-6 md:my-0 md:p-12 text-center">
       <div className="font-bold">{channel.name}</div>
       <div
         className="flex items-center justify-center text-3xl rounded-full border-4 w-24 h-24 mx-4 my-2 dark"

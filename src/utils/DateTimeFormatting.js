@@ -28,6 +28,8 @@ export const dateTime = (date) => {
     date[4].value === formattedYesterday[4].value
   ) {
     text = "yesterday at ";
+  } else {
+    text = `${date[0].value}/${date[2].value}/${date[4].value} `;
   }
 
   return (

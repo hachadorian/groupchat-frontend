@@ -9,6 +9,7 @@ export const CREATEMESSAGE_MUT = gql`
         name
         image
         message
+        channel_id
         created_at
       }
       ... on Errors {

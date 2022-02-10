@@ -1,13 +1,13 @@
 import { gql } from "@apollo/client";
 
-export const GETALLCHANNELS_QUERY = gql`
+export const GETTOPCHANNELS_QUERY = gql`
   query {
-    getAllChannels {
+    getTopChannels {
       id
       name
       description
-      member_count
       is_member
+      member_count
     }
   }
 `;

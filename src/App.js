@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
+import Test from "./pages/Test";
 
 const App = () => {
   return (
@@ -29,6 +30,9 @@ const App = () => {
           <div className="h-screen flex justify-center items-center dark text-white rubik">
             <Register />
           </div>
+        </Route>
+        <Route exact path="/test">
+          <Test />
         </Route>
         <Home />
       </Switch>

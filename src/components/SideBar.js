@@ -11,7 +11,7 @@ import { FaCrown } from "react-icons/fa";
 import { AiOutlineHome } from "react-icons/ai";
 import Loader from "./Loader";
 
-const SideBar = ({ setChannel, members, channel }) => {
+const SideBar = ({ setChannel, members, channel, toggled }) => {
   const user = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const result = useQuery(GETALLJOINEDCHANNELS_QUERY);
@@ -20,8 +20,12 @@ const SideBar = ({ setChannel, members, channel }) => {
   if (result.loading) return <Loader />;
 
   return (
-    <div className="h-full w-full flex flex-col">
-      <div className="flex flex-col text-white">
+    <div
+      className={`h-full ${
+        toggled ? "min-w-max md:min-w-0" : "w-0"
+      } md:w-96 darker font-bold flex flex-col text-white`}
+    >
+      <div className="overflow-auto">
         {channelSideBar && members ? (
           <div className="px-4">
             <button
@@ -99,14 +103,13 @@ const SideBar = ({ setChannel, members, channel }) => {
           </div>
         )}
       </div>
-      <div className="w-full mt-auto flex items-center justify-center bottom-0 darkest p-4 text-white">
+      <div className="mt-auto flex items-center justify-center darkest">
         <img
           src={user.image}
-          alt=""
-          className="border rounded-xl w-12 h-12 mr-4 bg-gray-300"
+          alt="profilepicture"
+          className="border rounded-xl w-12 h-12 my-2 mx-2 bg-gray-300"
         />
-        {window.screen.width > 640 ? <b>{user.name}</b> : null}
-        <Dropdown />
+        <Dropdown name={"Tyler Hachadorian"} />
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>

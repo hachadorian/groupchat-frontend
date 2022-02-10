@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CREATECHANNEL_MUT } from "../graphql/mutations/createChannel";
-import { GETALLCHANNELS_QUERY } from "../graphql/queries/getAllChannels";
+import { GETCHANNELS_QUERY } from "../graphql/queries/getChannels";
 import { GETALLJOINEDCHANNELS_QUERY } from "../graphql/queries/getAllJoinedChannels";
 
 const Modal = ({ isOpen, setIsOpen }) => {
@@ -14,12 +14,13 @@ const Modal = ({ isOpen, setIsOpen }) => {
   const [createChannel] = useMutation(CREATECHANNEL_MUT, {
     update: async (store, response) => {
       const allChannels = await store.readQuery({
-        query: GETALLCHANNELS_QUERY,
+        query: GETCHANNELS_QUERY,
+        variables: { search: "" },
       });
 
       if (allChannels) {
         store.writeQuery({
-          query: GETALLCHANNELS_QUERY,
+          query: GETCHANNELS_QUERY,
           data: {
             ...allChannels,
             getAllChannels: [
