@@ -3,7 +3,7 @@ import { dateTime } from "../utils/DateTimeFormatting";
 
 const Message = ({ message }) => {
   return (
-    <div className="flex w-full py-6 secondary-font">
+    <div className="flex w-full pb-6 pt-5 secondary-font">
       <div className="mr-2 md:mr-4 flex ">
         <img
           src={message.image}

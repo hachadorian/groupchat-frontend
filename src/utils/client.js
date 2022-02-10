@@ -28,40 +28,7 @@ const splitLink = split(
 );
 
 const client = new ApolloClient({
-  cache: new InMemoryCache({
-    typePolicies: {
-      Message: {
-        keyFields: ["channel_id", "id"],
-      },
-      Query: {
-        fields: {
-          getSomeMessages: {
-            read(
-              existing,
-              { args: { offset = 0, limit = existing?.length } = {} }
-            ) {
-              return existing && existing.slice(offset, offset + limit);
-            },
-            keyArgs: false,
-            merge(existing, incoming, { args: { offset = 0 } }) {
-              if (
-                existing &&
-                existing[0].__ref.split(":")[2] !==
-                  incoming[0].__ref.split(":")[2]
-              ) {
-                return incoming;
-              }
-              const merged = existing ? existing.slice(0) : [];
-              for (let i = 0; i < incoming.length; ++i) {
-                merged[offset + i] = incoming[i];
-              }
-              return merged;
-            },
-          },
-        },
-      },
-    },
-  }),
+  cache: new InMemoryCache(),
   link: splitLink,
 });
 

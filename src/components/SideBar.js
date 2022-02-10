@@ -109,7 +109,7 @@ const SideBar = ({ setChannel, members, channel, toggled }) => {
           alt="profilepicture"
           className="border rounded-xl w-12 h-12 my-2 mx-2 bg-gray-300"
         />
-        <Dropdown name={"Tyler Hachadorian"} />
+        <Dropdown name={user.name} />
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>

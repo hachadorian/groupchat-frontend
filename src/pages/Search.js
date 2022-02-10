@@ -1,15 +1,18 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ChannelCard from "../components/ChannelCard";
 import { GETCHANNELS_QUERY } from "../graphql/queries/getChannels";
 import Loader from "../components/Loader";
 import { GETTOPCHANNELS_QUERY } from "../graphql/queries/getTopChannels";
+import UserContext from "../utils/UserContext";
 
 const Search = () => {
   const [search, setSearch] = useState("");
   const [executeSearch, { called, loading, data }] =
     useLazyQuery(GETCHANNELS_QUERY);
   const getTopChannels = useQuery(GETTOPCHANNELS_QUERY);
+  const user = useContext(UserContext);
+  console.log(user);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,6 +22,8 @@ const Search = () => {
   }, [search, executeSearch]);
 
   if (getTopChannels.loading) return <Loader />;
+
+  console.log(getTopChannels.data);
 
   return (
     <div className="dark h-full overflow-auto">

@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GETCHANNEL_QUERY = gql`
-  query GetChanel($id: String!) {
+  query GetChannel($id: String!) {
     getChannel(id: $id) {
       id
       name
@@ -11,6 +11,14 @@ export const GETCHANNEL_QUERY = gql`
         name
         is_creator
         image
+      }
+      messages {
+        id
+        user_id
+        name
+        image
+        message
+        created_at
       }
     }
   }

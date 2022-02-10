@@ -1,11 +1,15 @@
-import { useMutation, useQuery } from "@apollo/client";
+import {
+  useLazyQuery,
+  useMutation,
+  useQuery,
+  useSubscription,
+} from "@apollo/client";
 import React, { useContext, useEffect, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import Message from "../components/Message";
 import { GETCHANNEL_QUERY } from "../graphql/queries/getChannel";
 import { CREATEMESSAGE_MUT } from "../graphql/mutations/createMessage";
 import Loader from "../components/Loader";
-import { useSubscription } from "@apollo/client";
 import { MESSAGE_ADDED } from "../graphql/subcriptions/messageAdded";
 import { useApolloClient } from "@apollo/client";
 import UserContext from "../utils/UserContext";
@@ -20,28 +24,31 @@ const Channel = ({ channel, setMembers }) => {
   const getChannel = useQuery(GETCHANNEL_QUERY, {
     variables: { id: channel.id },
   });
-  const { loading, data, fetchMore } = useQuery(GETSOMEMESSAGES_QUERY, {
-    fetchPolicy: "network-only",
-    variables: { channelID: channel.id, limit: 8, offset: 0 },
-  });
   const { cache } = useApolloClient();
   const user = useContext(UserContext);
+  const limit = 7;
+  /* eslint-disable no-unused-vars */
+  const [getSomeMessages, { fetchMore }] = useLazyQuery(GETSOMEMESSAGES_QUERY, {
+    variables: { channelID: channel.id, limit: limit, offset: limit },
+  });
+  /* eslint-enable no-unused-vars */
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     if (getChannel.data) {
       setMembers(getChannel.data.getChannel.members);
+      setMessages(getChannel.data.getChannel.messages);
+      setHasMore(
+        getChannel.data.getChannel.messages.length >= limit ? true : false
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getChannel.data]);
 
   useEffect(() => {
-    if (data) {
-      setMessages(data.getSomeMessages);
-    }
     setPageSocket(socket.emit("join", channel.id));
     setTyping("");
-  }, [channel, data]);
+  }, [channel]);
 
   useEffect(() => {
     if (!pageSocket) return;
@@ -73,12 +80,12 @@ const Channel = ({ channel, setMembers }) => {
     const res = await createMessage({
       variables: { channelID: channel.id, message: message },
     });
-    setMessages([...messages, res.data.createMessage]);
+    setMessages([res.data.createMessage, ...messages]);
     setMessage("");
   };
 
   useSubscription(MESSAGE_ADDED, {
-    onSubscriptionData: async ({ subscriptionData }) => {
+    onSubscriptionData: ({ subscriptionData }) => {
       const { messageAdded } = subscriptionData.data;
       updateCacheWith(messageAdded.channel_id, messageAdded);
     },
@@ -89,21 +96,27 @@ const Channel = ({ channel, setMembers }) => {
       set.map((m) => m.id).includes(object.id);
 
     const dataInStore = cache.readQuery({
-      query: GETSOMEMESSAGES_QUERY,
+      query: GETCHANNEL_QUERY,
       variables: {
-        channelID: channelId,
+        id: channelId,
       },
     });
 
-    if (!includedIn(dataInStore.getSomeMessages, messageAdded)) {
+    if (!includedIn(dataInStore.getChannel.messages, messageAdded)) {
       cache.writeQuery({
-        query: GETSOMEMESSAGES_QUERY,
-        data: [...dataInStore.getSomeMessages, messageAdded],
+        query: GETCHANNEL_QUERY,
+        variables: { channel_id: channel.id },
+        data: {
+          getChannel: {
+            ...dataInStore.getChannel,
+            messages: [messageAdded, ...dataInStore.getChannel.messages],
+          },
+        },
       });
     }
   };
 
-  if (getChannel.loading || loading) return <Loader />;
+  if (getChannel.loading) return <Loader />;
 
   return (
     <div className="dark h-full relative">
@@ -111,18 +124,18 @@ const Channel = ({ channel, setMembers }) => {
         <div className="px-14 py-4 dark">{channel.name}</div>
       </div>
       <div className="h-full flex flex-col flex-col-reverse overflow-auto pb-20 pt-16 px-8 md:px-14 text-white">
-        {[...messages].reverse().map((message) => {
+        {messages.map((message) => {
           return <Message key={message.id} message={message} />;
         })}
-        {messages.length >= 8 && hasMore && (
+        {[...messages].reverse().length >= limit && hasMore && (
           <div className="w-full text-center">
             <button
               className="secondary-font text-sm cursor-pointer"
               onClick={async (e) => {
                 const res = await fetchMore({
-                  variables: { offset: data.getSomeMessages.length },
+                  variables: { offset: messages.length },
                 });
-                if (res.data.getSomeMessages.length < 8) {
+                if (res.data.getSomeMessages.length < limit) {
                   setHasMore(false);
                 }
                 setMessages([...messages, ...res.data.getSomeMessages]);
