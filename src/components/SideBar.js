@@ -106,7 +106,7 @@ const SideBar = ({ setChannel, members, channel, toggled }) => {
       <div className="mt-auto flex items-center justify-center darkest">
         <img
           src={user.image}
-          alt="profilepicture"
+          alt=""
           className="border rounded-xl w-12 h-12 my-2 mx-2 bg-gray-300"
         />
         <Dropdown name={user.name} />

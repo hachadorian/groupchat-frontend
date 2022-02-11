@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IoPersonCircleSharp } from "react-icons/io5";
@@ -6,22 +6,15 @@ import { MdPeople, MdOutlineExitToApp } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import { useHistory } from "react-router";
 import { LOGOUT_MUT } from "../graphql/mutations/logout";
-import { ME_QUERY } from "../graphql/queries/me";
 import { Link } from "react-router-dom";
 
 const Dropdown = ({ name }) => {
   const history = useHistory();
+  const client = useApolloClient();
 
   const [logout] = useMutation(LOGOUT_MUT, {
     update: async (store, response) => {
-      const dataInStore = await store.readQuery({ query: ME_QUERY });
-      store.writeQuery({
-        query: ME_QUERY,
-        data: {
-          ...dataInStore,
-          me: null,
-        },
-      });
+      await client.clearStore();
     },
   });
 

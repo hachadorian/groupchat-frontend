@@ -1,18 +1,15 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChannelCard from "../components/ChannelCard";
 import { GETCHANNELS_QUERY } from "../graphql/queries/getChannels";
 import Loader from "../components/Loader";
 import { GETTOPCHANNELS_QUERY } from "../graphql/queries/getTopChannels";
-import UserContext from "../utils/UserContext";
 
 const Search = () => {
   const [search, setSearch] = useState("");
   const [executeSearch, { called, loading, data }] =
     useLazyQuery(GETCHANNELS_QUERY);
   const getTopChannels = useQuery(GETTOPCHANNELS_QUERY);
-  const user = useContext(UserContext);
-  console.log(user);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,8 +19,6 @@ const Search = () => {
   }, [search, executeSearch]);
 
   if (getTopChannels.loading) return <Loader />;
-
-  console.log(getTopChannels.data);
 
   return (
     <div className="dark h-full overflow-auto">
@@ -56,7 +51,7 @@ const Search = () => {
             <div className="text-xl text-white mb-6">Top communities:</div>
             <div className="md:grid grid-cols-2 md:gap-12">
               {getTopChannels.data.getTopChannels.map((channel) => {
-                return <ChannelCard channel={channel} />;
+                return <ChannelCard key={channel.id} channel={channel} />;
               })}
             </div>
           </div>
@@ -67,7 +62,7 @@ const Search = () => {
             data &&
             search !== "" &&
             data.getChannels.map((channel) => {
-              return <ChannelCard channel={channel} />;
+              return <ChannelCard key={channel.id} channel={channel} />;
             })}
         </div>
       </div>

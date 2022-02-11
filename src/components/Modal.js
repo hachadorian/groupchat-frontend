@@ -5,28 +5,28 @@ import { useHistory } from "react-router-dom";
 import { CREATECHANNEL_MUT } from "../graphql/mutations/createChannel";
 import { GETCHANNELS_QUERY } from "../graphql/queries/getChannels";
 import { GETALLJOINEDCHANNELS_QUERY } from "../graphql/queries/getAllJoinedChannels";
+import Error from "./Error";
 
 const Modal = ({ isOpen, setIsOpen }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
   const history = useHistory();
 
   const [createChannel] = useMutation(CREATECHANNEL_MUT, {
     update: async (store, response) => {
-      const allChannels = await store.readQuery({
+      if (response.data.createChannel.__typename === "Errors") return;
+
+      const channels = await store.readQuery({
         query: GETCHANNELS_QUERY,
         variables: { search: "" },
       });
-
-      if (allChannels) {
+      if (channels) {
         store.writeQuery({
           query: GETCHANNELS_QUERY,
           data: {
-            ...allChannels,
-            getAllChannels: [
-              ...allChannels.getAllChannels,
-              response.data.createChannel,
-            ],
+            ...channels,
+            getChannels: [...channels.getChannels, response.data.createChannel],
           },
         });
       }
@@ -52,7 +52,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
       variables: { name: name, description: description },
     });
     if (res.data.createChannel.__typename === "Errors") {
-      console.log(res.data.createChannel.message);
+      setError(res.data.createChannel.message);
       return;
     }
     setName("");
@@ -123,7 +123,7 @@ const Modal = ({ isOpen, setIsOpen }) => {
                     />
                   </div>
                 </div>
-
+                {error && <Error message={error} />}
                 <div className="mt-4 flex justify-end">
                   <button
                     type="button"

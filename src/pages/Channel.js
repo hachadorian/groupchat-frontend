@@ -80,6 +80,10 @@ const Channel = ({ channel, setMembers }) => {
     const res = await createMessage({
       variables: { channelID: channel.id, message: message },
     });
+    if (res.data.createMessage.__typename === "Errors") {
+      return;
+    }
+    pageSocket.emit("not-typing", { roomId: channel.id });
     setMessages([res.data.createMessage, ...messages]);
     setMessage("");
   };

@@ -57,7 +57,7 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="flex justify-center pt-12 pb-24 dark text-white">
+    <div className="flex justify-center dark text-white">
       <div className="flex justify-center flex-col md:w-1/2">
         <button
           className="flex justify-start text-white md:ml-0 ml-10"
