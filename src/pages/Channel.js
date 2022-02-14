@@ -4,7 +4,7 @@ import {
   useQuery,
   useSubscription,
 } from "@apollo/client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import Message from "../components/Message";
 import { GETCHANNEL_QUERY } from "../graphql/queries/getChannel";
@@ -12,27 +12,28 @@ import { CREATEMESSAGE_MUT } from "../graphql/mutations/createMessage";
 import Loader from "../components/Loader";
 import { MESSAGE_ADDED } from "../graphql/subcriptions/messageAdded";
 import { useApolloClient } from "@apollo/client";
-import UserContext from "../utils/UserContext";
-import { socket } from "../utils/socket";
+// import UserContext from "../utils/UserContext";
 import { GETSOMEMESSAGES_QUERY } from "../graphql/queries/getSomeMessages";
+// import io from "socket.io-client";
 
 const Channel = ({ channel, setMembers }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [typing, setTyping] = useState("");
-  const [pageSocket, setPageSocket] = useState(null);
+  // const [typing, setTyping] = useState("");
+  // const [pageSocket, setPageSocket] = useState();
   const getChannel = useQuery(GETCHANNEL_QUERY, {
     variables: { id: channel.id },
   });
   const { cache } = useApolloClient();
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
   const limit = 7;
-  /* eslint-disable no-unused-vars */
-  const [getSomeMessages, { fetchMore }] = useLazyQuery(GETSOMEMESSAGES_QUERY, {
+  const [, { fetchMore }] = useLazyQuery(GETSOMEMESSAGES_QUERY, {
     variables: { channelID: channel.id, limit: limit, offset: limit },
   });
-  /* eslint-enable no-unused-vars */
   const [hasMore, setHasMore] = useState(true);
+  // const socket = io(process.env.REACT_APP_WS_URL, {
+  //   transports: ["websocket"],
+  // });
 
   useEffect(() => {
     if (getChannel.data) {
@@ -42,36 +43,39 @@ const Channel = ({ channel, setMembers }) => {
         getChannel.data.getChannel.messages.length >= limit ? true : false
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getChannel.data]);
+  }, [getChannel.data, setMembers, setMessages, setHasMore]);
 
-  useEffect(() => {
-    setPageSocket(socket.emit("join", channel.id));
-    setTyping("");
-  }, [channel]);
+  //
+  // useEffect(() => {
+  //   if (socket.connected) {
+  //     setPageSocket(socket.emit("join", channel.id));
+  //   }
+  //   setTyping("");
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [channel]);
 
-  useEffect(() => {
-    if (!pageSocket) return;
-    pageSocket.on("someoneTyping", (data) => {
-      if (channel.id !== data.roomId) {
-        setTyping("");
-        return pageSocket.emit("leave", { roomId: data.roomId });
-      }
-      setTyping(data.user);
-    });
-    pageSocket.on("nooneTyping", (data) => {
-      setTyping("");
-    });
-  });
+  // useEffect(() => {
+  //   if (!pageSocket) return;
+  //   pageSocket.on("someoneTyping", (data) => {
+  //     if (channel.id !== data.roomId) {
+  //       setTyping("");
+  //       return pageSocket.emit("leave", { roomId: data.roomId });
+  //     }
+  //     setTyping(data.user);
+  //   });
+  //   pageSocket.on("nooneTyping", (data) => {
+  //     setTyping("");
+  //   });
+  // });
 
-  useEffect(() => {
-    if (!pageSocket) return;
-    const timer = setTimeout(() => {
-      pageSocket.emit("not-typing", { roomId: channel.id });
-    }, 500);
-    return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [message]);
+  // useEffect(() => {
+  //   if (!pageSocket) return;
+  //   const timer = setTimeout(() => {
+  //     pageSocket.emit("not-typing", { roomId: channel.id });
+  //   }, 500);
+  //   return () => clearTimeout(timer);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [message]);
 
   const [createMessage] = useMutation(CREATEMESSAGE_MUT);
 
@@ -83,7 +87,7 @@ const Channel = ({ channel, setMembers }) => {
     if (res.data.createMessage.__typename === "Errors") {
       return;
     }
-    pageSocket.emit("not-typing", { roomId: channel.id });
+    // pageSocket.emit("not-typing", { roomId: channel.id });
     setMessages([res.data.createMessage, ...messages]);
     setMessage("");
   };
@@ -152,20 +156,20 @@ const Channel = ({ channel, setMembers }) => {
       </div>
       <div className="absolute bottom-0 w-full flex justify-center">
         <div className="px-8 md:px-14 py-4 w-full">
-          {typing && (
+          {/* {typing && (
             <div className="text-white italic animate-pulse py-2">
               {typing} is typing...
             </div>
-          )}
+          )} */}
           <input
             className="w-11/12 p-3 rounded input-bg text-white w-full"
             placeholder="Type a message here"
             value={message}
             onChange={(e) => {
-              pageSocket.emit("typing", {
-                user: user.name,
-                roomId: channel.id,
-              });
+              // pageSocket.emit("typing", {
+              //   user: user.name,
+              //   roomId: channel.id,
+              // });
               setMessage(e.target.value);
             }}
             onKeyPress={(e) => {
