@@ -44,7 +44,7 @@ const Home = () => {
                   Whether you're part of a school club, gaming group, worldwide
                   art community, or just a handful of friends that want to spend
                   time together, our application makes it easy to talk every day
-                  and hang out more ofter.
+                  and hang out more often.
                 </div>
                 <Link to="/search">
                   <div className="rounded-lg text-black bg-white p-4 m-4 hover:bg-gray-100">
