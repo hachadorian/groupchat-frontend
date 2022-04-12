@@ -41,9 +41,9 @@ const Home = () => {
               <div className="bg-gradient-to-r from-green-400 to-blue-500 w-10/12 md:w-1/2 p-6 md:p-20 text-center rounded-lg text-white">
                 <div className="font-bold text-5xl py-4">Welcome</div>
                 <div>
-                  Whether you're part of a school club, gaming group, worldwid
+                  Whether you're part of a school club, gaming group, worldwide
                   art community, or just a handful of friends that want to spend
-                  time together, our application makes it east to talk every day
+                  time together, our application makes it easy to talk every day
                   and hang out more ofter.
                 </div>
                 <Link to="/search">
